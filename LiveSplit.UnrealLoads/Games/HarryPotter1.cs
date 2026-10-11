@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace LiveSplit.UnrealLoads.Games
 {
@@ -70,11 +71,20 @@ namespace LiveSplit.UnrealLoads.Games
 			return new TimerAction[] { TimerAction.UnpauseGameTime };
 		}
 
+		static readonly Regex SaveSlot = new Regex(@"^save\d+\.usa$", RegexOptions.IgnoreCase);
+
 		public override TimerAction[] OnMapLoad(MemoryWatcherList watchers)
 		{
 			StringWatcher map = (StringWatcher)watchers["map"];
 			if (map != null)
 			{
+				// The load menu (and the reload after dying) opens a save slot with "open saveN.usa".
+				// Save99 is what dying loads when no slot was ever selected.
+				if (map.Current != null && SaveSlot.IsMatch(map.Current) && !map.Current.Equals("save99.usa", StringComparison.OrdinalIgnoreCase))
+				{
+					return new TimerAction[] { TimerAction.Start };
+				}
+
 				if (!map.Changed && map.Current == "Lev_Tut1.unr")
 				{
 					return new TimerAction[] { TimerAction.Split };
