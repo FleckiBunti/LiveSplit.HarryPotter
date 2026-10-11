@@ -6,7 +6,7 @@
     <ProjectGuid>{2307542D-1ACA-4B3C-A9CE-DCD1EDC6AA23}</ProjectGuid>
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>LiveSplit.UnrealLoads</AssemblyName>
+    <AssemblyName>LiveSplit.HarryPotter</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -98,8 +98,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Components\update.LiveSplit.UnrealLoads.xml">
-      <Link>update.LiveSplit.UnrealLoads.xml</Link>
+    <Content Include="..\Components\update.LiveSplit.HarryPotter.xml">
+      <Link>update.LiveSplit.HarryPotter.xml</Link>
     </Content>
   </ItemGroup>
   <ItemGroup />

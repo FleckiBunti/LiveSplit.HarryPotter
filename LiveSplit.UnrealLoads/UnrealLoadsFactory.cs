@@ -9,9 +9,9 @@ namespace LiveSplit.UnrealLoads
 {
 	public class UnrealLoadsFactory : IComponentFactory
 	{
-		public string ComponentName => "UnrealLoads";
+		public string ComponentName => "Harry Potter Loads";
 
-		public string Description => "Autosplitting and load removal component for some Unreal Engine 1 games";
+		public string Description => "Autosplitting and load removal for Harry Potter 1-3 (PC) and some other Unreal Engine games";
 
 		public ComponentCategory Category => ComponentCategory.Control;
 
@@ -22,11 +22,11 @@ namespace LiveSplit.UnrealLoads
 
 		public string UpdateName => ComponentName;
 
-		public string UpdateURL => "https://raw.githubusercontent.com/Dalet/LiveSplit.UnrealLoads/master/";
+		public string UpdateURL => "https://raw.githubusercontent.com/FleckiBunti/LiveSplit.HarryPotter/main/";
 
 		public Version Version => Assembly.GetExecutingAssembly().GetName().Version;
 
-		public string XMLURL => UpdateURL + "Components/update.LiveSplit.UnrealLoads.xml";
+		public string XMLURL => UpdateURL + "Components/update.LiveSplit.HarryPotter.xml";
 
 		private readonly IList<GameSupport> _supportedGames = new GameSupport[]
 		{

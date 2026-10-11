@@ -1,0 +1,13 @@
+<updates>
+  <update version="2.0.0">
+    <files>
+      <file path="Components/LiveSplit.HarryPotter.dll" status="changed"/>
+    </files>
+    <changelog>
+      <change>Continued as LiveSplit.HarryPotter (formerly LiveSplit.UnrealLoads by Dalet)</change>
+      <change>HP1-3: load removal is the same on all hardware (fade-outs, saves, texture precaching, reloads)</change>
+      <change>HP3: game speed no longer varies between game launches</change>
+      <change>HP1: timer starts when a save is loaded</change>
+    </changelog>
+  </update>
+</updates>

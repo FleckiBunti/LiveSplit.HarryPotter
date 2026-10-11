@@ -13,7 +13,7 @@ namespace LiveSplit.UnrealLoads
 {
 	public class UnrealLoadsComponent : LogicComponent
 	{
-		public override string ComponentName => "UnrealLoads";
+		public override string ComponentName => "Harry Potter Loads";
 
 		private readonly IUnrealLoadsSettings Settings;
 		private readonly ITimerModel _timer;
@@ -27,7 +27,7 @@ namespace LiveSplit.UnrealLoads
 #if DEBUG
 			debug = true;
 #endif
-			Trace.WriteLine("[NoLoads] Using LiveSplit.UnrealLoads component version " + Assembly.GetExecutingAssembly().GetName().Version + " " + ((debug) ? "Debug" : "Release") + " build");
+			Trace.WriteLine("[NoLoads] Using LiveSplit.HarryPotter component version " + Assembly.GetExecutingAssembly().GetName().Version + " " + ((debug) ? "Debug" : "Release") + " build");
 
 			_state = state;
 			_timer = timer;
@@ -62,7 +62,7 @@ namespace LiveSplit.UnrealLoads
 		{
 #if DEBUG
 			if (Settings.DbgShowMap)
-				MessageBox.Show(_state.Form, prevMap + " -> " + nextMap, "LiveSplit.UnrealLoads",
+				MessageBox.Show(_state.Form, prevMap + " -> " + nextMap, "LiveSplit.HarryPotter",
 					MessageBoxButtons.OK, MessageBoxIcon.Information);
 #endif
 
