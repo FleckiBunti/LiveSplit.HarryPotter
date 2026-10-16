@@ -1,4 +1,13 @@
 <updates>
+  <update version="2.0.1">
+    <files>
+      <file path="Components/LiveSplit.HarryPotter.dll" status="changed"/>
+    </files>
+    <changelog>
+      <change>Cleaned up games that are not Harry Potter</change>
+      <change>Added CI + Build Attestation</change>
+    </changelog>
+  </update>
   <update version="2.0.0">
     <files>
       <file path="Components/LiveSplit.HarryPotter.dll" status="changed"/>
