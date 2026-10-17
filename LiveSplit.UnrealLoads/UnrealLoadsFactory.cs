@@ -11,7 +11,7 @@ namespace LiveSplit.UnrealLoads
 	{
 		public string ComponentName => "Harry Potter Loads";
 
-		public string Description => "Autosplitting and load removal for Harry Potter 1-3 (PC) and some other Unreal Engine games";
+		public string Description => "Autosplitting and load removal for Harry Potter 1-3 (PC)";
 
 		public ComponentCategory Category => ComponentCategory.Control;
 
@@ -32,17 +32,7 @@ namespace LiveSplit.UnrealLoads
 		{
 			new HarryPotter1(),
 			new HarryPotter2(),
-			new HarryPotter3(),
-			new Shrek2(),
-			new WheelOfTime(),
-			new UnrealGold(),
-			new SplinterCell3(),
-			new SplinterCell(),
-			new MobileForces(),
-			new XCOM_Enforcer(),
-			new DS9TheFallen(),
-			new KlingonHonorGuard(),
-			new TheHeatOfWar() 
+			new HarryPotter3()
 		};
 	}
 }

@@ -1,0 +1,91 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LIVESPLIT_VERSION: 1.8.37
+  LIVESPLIT_SHA256: 14bc8ef8ded9ef4033fb2f0cb6a152386d393127da18a4de14f096c5347aa991
+  DLL: Components/LiveSplit.HarryPotter.dll
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+      # Keep LF sources on Windows so the output matches Linux builds
+      - run: git config --global core.autocrlf false
+
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Fetch LiveSplit ${{ env.LIVESPLIT_VERSION }}
+        shell: pwsh
+        run: |
+          $zip = "$env:RUNNER_TEMP\LiveSplit.zip"
+          Invoke-WebRequest "https://github.com/LiveSplit/LiveSplit/releases/download/$env:LIVESPLIT_VERSION/LiveSplit_$env:LIVESPLIT_VERSION.zip" -OutFile $zip
+          $hash = (Get-FileHash $zip -Algorithm SHA256).Hash
+          if ($hash -ne $env:LIVESPLIT_SHA256) { throw "LiveSplit zip hash mismatch: $hash" }
+          Expand-Archive $zip -DestinationPath "$env:RUNNER_TEMP\LiveSplit"
+          "LIVESPLIT_DIR=$env:RUNNER_TEMP\LiveSplit" >> $env:GITHUB_ENV
+
+      - run: dotnet build LiveSplit.UnrealLoads/LiveSplit.UnrealLoads.csproj -c Release "-p:LiveSplitDir=${{ env.LIVESPLIT_DIR }}"
+
+      - run: dotnet test LiveSplit.UnrealLoads.sln -c Release "-p:LiveSplitDir=${{ env.LIVESPLIT_DIR }}"
+
+      - name: Hash
+        shell: pwsh
+        run: (Get-FileHash $env:DLL -Algorithm SHA256).Hash | Tee-Object -Append $env:GITHUB_STEP_SUMMARY
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: LiveSplit.HarryPotter
+          path: ${{ env.DLL }}
+          if-no-files-found: error
+
+  # Attest the DLL and commit to main
+  publish:
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: LiveSplit.HarryPotter
+          path: Components
+
+      - uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: ${{ env.DLL }}
+
+      - name: Commit DLL
+        run: |
+          if git diff --quiet -- "$DLL"; then
+            echo "DLL unchanged"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$DLL"
+          git commit -m "Build LiveSplit.HarryPotter.dll from ${GITHUB_SHA::7}"
+          # Fails if main moved on; the newer run publishes instead
+          git push origin "HEAD:main"

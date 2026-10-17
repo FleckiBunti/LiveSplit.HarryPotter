@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <!-- Folder containing LiveSplit.Core.dll and UpdateManager.dll. CI overrides this with -p:LiveSplitDir=... -->
+    <LiveSplitDir Condition=" '$(LiveSplitDir)' == '' ">$(MSBuildThisFileDirectory)..\..\..\Program Files\LiveSplit</LiveSplitDir>
+    <LiveSplitPath>$([MSBuild]::EnsureTrailingSlash('$(LiveSplitDir)'))</LiveSplitPath>
+  </PropertyGroup>
+</Project>
